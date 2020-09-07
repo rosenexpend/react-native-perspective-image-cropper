@@ -6,6 +6,7 @@ import {
     Image,
     View,
     Animated,
+    Text
 } from 'react-native';
 import Svg, { Polygon } from 'react-native-svg';
 
@@ -28,79 +29,141 @@ class CustomCrop extends Component {
             topLeft: new Animated.ValueXY(
                 props.rectangleCoordinates
                     ? this.imageCoordinatesToViewCoordinates(
-                          props.rectangleCoordinates.topLeft,
-                          true,
-                      )
+                        props.rectangleCoordinates.topLeft,
+                        true,
+                    )
                     : { x: 100, y: 100 },
             ),
             topRight: new Animated.ValueXY(
                 props.rectangleCoordinates
                     ? this.imageCoordinatesToViewCoordinates(
-                          props.rectangleCoordinates.topRight,
-                          true,
-                      )
+                        props.rectangleCoordinates.topRight,
+                        true,
+                    )
                     : { x: Dimensions.get('window').width - 100, y: 100 },
             ),
             bottomLeft: new Animated.ValueXY(
                 props.rectangleCoordinates
                     ? this.imageCoordinatesToViewCoordinates(
-                          props.rectangleCoordinates.bottomLeft,
-                          true,
-                      )
+                        props.rectangleCoordinates.bottomLeft,
+                        true,
+                    )
                     : { x: 100, y: this.state.viewHeight - 100 },
             ),
             bottomRight: new Animated.ValueXY(
                 props.rectangleCoordinates
                     ? this.imageCoordinatesToViewCoordinates(
-                          props.rectangleCoordinates.bottomRight,
-                          true,
-                      )
+                        props.rectangleCoordinates.bottomRight,
+                        true,
+                    )
                     : {
-                          x: Dimensions.get('window').width - 100,
-                          y: this.state.viewHeight - 100,
-                      },
+                        x: Dimensions.get('window').width - 100,
+                        y: this.state.viewHeight - 100,
+                    },
             ),
         };
         this.state = {
             ...this.state,
             overlayPositions: `${this.state.topLeft.x._value},${
                 this.state.topLeft.y._value
-            } ${this.state.topRight.x._value},${this.state.topRight.y._value} ${
+                } ${this.state.topRight.x._value},${this.state.topRight.y._value} ${
                 this.state.bottomRight.x._value
-            },${this.state.bottomRight.y._value} ${
+                },${this.state.bottomRight.y._value} ${
                 this.state.bottomLeft.x._value
-            },${this.state.bottomLeft.y._value}`,
+                },${this.state.bottomLeft.y._value}`,
         };
 
-        this.panResponderTopLeft = this.createPanResponser(this.state.topLeft);
-        this.panResponderTopRight = this.createPanResponser(
-            this.state.topRight,
-        );
-        this.panResponderBottomLeft = this.createPanResponser(
-            this.state.bottomLeft,
-        );
-        this.panResponderBottomRight = this.createPanResponser(
-            this.state.bottomRight,
-        );
+        this.panResponderTopLeft = this.createPanResponser(this.state.topLeft, 'tl');
+        this.panResponderTopRight = this.createPanResponser(this.state.topRight, 'tr');
+        this.panResponderBottomLeft = this.createPanResponser(this.state.bottomLeft, 'bl');
+        this.panResponderBottomRight = this.createPanResponser(this.state.bottomRight, 'br');
+
+        Image.getSize(props.initialImage, (w, h) => {
+            let ratio = w / h
+            let windowHeight = Dimensions.get('window').height
+            let windowWidth = Dimensions.get('window').width
+
+            let tryHeight = (windowHeight / 100) * 70
+            let tryWidth = ratio * tryHeight
+
+            if (tryWidth > windowWidth - 80) {
+                tryWidth = windowWidth - 80
+                tryHeight = tryWidth / ratio
+            }
+
+            this.setState({
+                imageHeight: h,
+                imageWidth: w,
+                containerHeight: tryHeight,
+                containerWidth: tryWidth,
+                height: tryHeight,
+                width: tryWidth,
+                viewHeight: tryHeight,
+                windowHeight,
+                windowWidth
+            })
+
+        }, (err) => console.log(err))
     }
 
-    createPanResponser(corner) {
+    createPanResponser(corner, type) {
         return PanResponder.create({
-            onStartShouldSetPanResponder: () => true,
-            onPanResponderMove: Animated.event([
-                null,
-                {
-                    dx: corner.x,
-                    dy: corner.y,
-                },
-            ]),
+            onStartShouldSetPanResponder: (e, gestureState) => true,
+            onPanResponderMove: (e, gestureState) => {
+                this.setState({})
+                const { height, width } = this.state
+
+                let windowHeight = Dimensions.get('window').height
+                let windowWidth = Dimensions.get('window').width
+
+                let viewImageDistanceX = (windowWidth / 2) - (width / 2)
+
+                // BOTH X LESS AND Y LESS
+                if ((corner.x._value + gestureState.dx) < viewImageDistanceX && (corner.y._value + gestureState.dy) < 0) {
+                    corner.setOffset(({ x: -(corner.x._value - viewImageDistanceX), y: -corner.y._value }))
+                }
+
+                // X MORE AND Y LESS
+                else if ((corner.x._value + gestureState.dx) > (viewImageDistanceX + width) && (corner.y._value + gestureState.dy) < 0) {
+                    corner.setOffset(({ x: (width + viewImageDistanceX) - corner.x._value, y: -corner.y._value }))
+                }
+
+                // X LESS AND Y MORE
+                else if ((corner.x._value + gestureState.dx) < viewImageDistanceX && (corner.y._value + gestureState.dy) > height) {
+                    corner.setOffset(({ x: -(corner.x._value - viewImageDistanceX), y: (height - corner.y._value) }))
+                }
+
+                // BOTH X MORE AND Y MORE
+                else if ((corner.x._value + gestureState.dx) > (viewImageDistanceX + width) && (corner.y._value + gestureState.dy) > height) {
+                    corner.setOffset(({ x: (width + viewImageDistanceX) - corner.x._value, y: (height - corner.y._value) }))
+                }
+
+                // X LESS
+                else if ((corner.x._value + gestureState.dx) < viewImageDistanceX) {
+                    corner.setOffset(({ x: -(corner.x._value - viewImageDistanceX), y: gestureState.dy }))
+                }
+
+                // X MORE
+                else if ((corner.x._value + gestureState.dx) > (viewImageDistanceX + width)) {
+                    corner.setOffset(({ x: (width + viewImageDistanceX) - corner.x._value, y: gestureState.dy }))
+                }
+
+                // Y LESS
+                else if ((corner.y._value + gestureState.dy) < 0) {
+                    corner.setOffset(({ x: gestureState.dx, y: -corner.y._value }))
+                }
+
+                // Y MORE
+                else if ((corner.y._value + gestureState.dy) > height) {
+                    corner.setOffset(({ x: gestureState.dx, y: (height - corner.y._value) }))
+                }
+                else {
+                    corner.setOffset(({ x: gestureState.dx, y: gestureState.dy }))
+                }
+            },
             onPanResponderRelease: () => {
                 corner.flattenOffset();
                 this.updateOverlayString();
-            },
-            onPanResponderGrant: () => {
-                corner.setOffset({ x: corner.x._value, y: corner.y._value });
-                corner.setValue({ x: 0, y: 0 });
             },
         });
     }
@@ -108,17 +171,11 @@ class CustomCrop extends Component {
     crop() {
         const coordinates = {
             topLeft: this.viewCoordinatesToImageCoordinates(this.state.topLeft),
-            topRight: this.viewCoordinatesToImageCoordinates(
-                this.state.topRight,
-            ),
-            bottomLeft: this.viewCoordinatesToImageCoordinates(
-                this.state.bottomLeft,
-            ),
-            bottomRight: this.viewCoordinatesToImageCoordinates(
-                this.state.bottomRight,
-            ),
-            height: this.state.height,
-            width: this.state.width,
+            topRight: this.viewCoordinatesToImageCoordinates(this.state.topRight),
+            bottomLeft: this.viewCoordinatesToImageCoordinates(this.state.bottomLeft),
+            bottomRight: this.viewCoordinatesToImageCoordinates(this.state.bottomRight),
+            height: this.state.imageHeight,
+            width: this.state.imageWidth,
         };
         NativeModules.CustomCropManager.crop(
             coordinates,
@@ -131,11 +188,11 @@ class CustomCrop extends Component {
         this.setState({
             overlayPositions: `${this.state.topLeft.x._value},${
                 this.state.topLeft.y._value
-            } ${this.state.topRight.x._value},${this.state.topRight.y._value} ${
+                } ${this.state.topRight.x._value},${this.state.topRight.y._value} ${
                 this.state.bottomRight.x._value
-            },${this.state.bottomRight.y._value} ${
+                },${this.state.bottomRight.y._value} ${
                 this.state.bottomLeft.x._value
-            },${this.state.bottomLeft.y._value}`,
+                },${this.state.bottomLeft.y._value}`,
         });
     }
 
@@ -147,35 +204,43 @@ class CustomCrop extends Component {
     }
 
     viewCoordinatesToImageCoordinates(corner) {
+        const { height, width, imageHeight, imageWidth } = this.state
+
+        let windowHeight = Dimensions.get('window').height
+        let windowWidth = Dimensions.get('window').width
+
+        let viewImageDistanceX = (windowWidth / 2) - (width / 2)
+
+        let X = corner.x._value - viewImageDistanceX
+        let Y = corner.y._value
+
+        let XViewPercentage = X / (width / 100)
+        let YViewPercentage = Y / (height / 100)
+
+        let XImage = (imageWidth / 100) * XViewPercentage
+        let YImage = (imageHeight / 100) * YViewPercentage
+
         return {
-            x:
-                (corner.x._value / Dimensions.get('window').width) *
-                this.state.width,
-            y: (corner.y._value / this.state.viewHeight) * this.state.height,
+            x: XImage,
+            y: YImage
         };
     }
 
     render() {
-        return (
-            <View
-                style={{
-                    flex: 1,
-                    alignItems: 'center',
-                    justifyContent: 'flex-end',
-                }}
-            >
+        const { containerHeight } = this.state
+        if (containerHeight) {
+            return (
                 <View
                     style={[
                         s(this.props).cropContainer,
-                        { height: this.state.viewHeight },
                     ]}
                 >
                     <Image
                         style={[
                             s(this.props).image,
-                            { height: this.state.viewHeight },
+                            { height: this.state.height, width: this.state.width },
                         ]}
-                        resizeMode="contain"
+                        resizeMode="cover"
                         source={{ uri: this.state.image }}
                     />
                     <Svg
@@ -273,8 +338,11 @@ class CustomCrop extends Component {
                         />
                     </Animated.View>
                 </View>
-            </View>
-        );
+            );
+        }
+        return (
+            <View />
+        )
     }
 }
 
@@ -291,10 +359,6 @@ const s = (props) => ({
         height: 39,
         borderRadius: 100,
         backgroundColor: props.handlerColor || 'blue',
-    },
-    image: {
-        width: Dimensions.get('window').width,
-        position: 'absolute',
     },
     bottomButton: {
         alignItems: 'center',
@@ -315,10 +379,10 @@ const s = (props) => ({
         position: 'absolute',
     },
     cropContainer: {
-        position: 'absolute',
-        left: 0,
+        alignItems: 'center',
+        marginTop: '10%',
+        height: '100%',
         width: Dimensions.get('window').width,
-        top: 0,
     },
 });
 
