@@ -1,5 +1,6 @@
-
 package fr.michaelvilleneuve.customcrop;
+
+import fr.michaelvilleneuve.customcrop.ImageProcessor;
 
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
@@ -14,6 +15,9 @@ import com.facebook.react.bridge.ReadableMap;
 import com.facebook.react.bridge.Callback;
 import com.facebook.react.bridge.WritableMap;
 
+import org.opencv.android.BaseLoaderCallback;
+import org.opencv.android.OpenCVLoader;
+import org.opencv.android.LoaderCallbackInterface;
 import org.opencv.android.Utils;
 import org.opencv.core.Core;
 import org.opencv.core.CvType;
@@ -41,14 +45,21 @@ import java.util.Date;
 import java.util.HashMap;
 import java.util.List;
 
+import android.util.Log;
+
+import static com.facebook.react.bridge.UiThreadUtil.runOnUiThread;
+
 public class RNCustomCropModule extends ReactContextBaseJavaModule {
 
   private final ReactApplicationContext reactContext;
+  private final String TAG = ":(";
 
-  public RNCustomCropModule(ReactApplicationContext reactContext) {
+  public RNCustomCropModule(final ReactApplicationContext reactContext) {
     super(reactContext);
+    OpenCVLoader.initDebug();
     this.reactContext = reactContext;
   }
+
 
   @Override
   public String getName() {
@@ -66,9 +77,6 @@ public class RNCustomCropModule extends ReactContextBaseJavaModule {
     Mat src = Imgcodecs.imread(imageUri.replace("file://", ""), Imgproc.COLOR_BGR2RGB);
     Imgproc.cvtColor(src, src, Imgproc.COLOR_BGR2RGB);
     Imgproc.resize(src, src, new Size(points.getDouble("width"), points.getDouble("height")));
-
-    boolean ratioAlreadyApplied = tr.x * (src.size().width / 500) < src.size().width;
-    double ratio = ratioAlreadyApplied ? src.size().width / 500 : 1;
 
     double widthA = Math.sqrt(Math.pow(br.x - bl.x, 2) + Math.pow(br.y - bl.y, 2));
     double widthB = Math.sqrt(Math.pow(tr.x - tl.x, 2) + Math.pow(tr.y - tl.y, 2));
@@ -106,6 +114,16 @@ public class RNCustomCropModule extends ReactContextBaseJavaModule {
     callback.invoke(null, map);
 
     m.release();
+  }
+
+  @ReactMethod
+  public void findDocument(String imageUri, Callback callback) {
+    if (!imageUri.isEmpty()) {
+      Mat src = Imgcodecs.imread(imageUri.replace("file://", ""));
+      Imgproc.cvtColor(src, src, Imgproc.COLOR_BGR2RGB);
+      ImageProcessor ip = new ImageProcessor();
+      callback.invoke(null, ip.processPicture(src));
+    }
   }
 
 }
