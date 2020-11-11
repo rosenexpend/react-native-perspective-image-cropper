@@ -18,6 +18,7 @@ class CustomCrop extends Component {
         this.state = {
             viewHeight:
                 Dimensions.get('window').width * (props.height / props.width),
+            viewWidth: Dimensions.get('window').width,
             height: props.height,
             width: props.width,
             image: props.initialImage,
@@ -161,6 +162,7 @@ class CustomCrop extends Component {
             <View
                 style={{
                     height: this.state.viewHeight,
+                    width: this.state.viewWidth,
                     alignItems: 'center',
                     justifyContent: 'flex-end',
                 }}
@@ -168,13 +170,13 @@ class CustomCrop extends Component {
                 <View
                     style={[
                         s(this.props).cropContainer,
-                        { height: this.state.viewHeight },
+                        { height: this.state.viewHeight, width: this.state.viewWidth },
                     ]}
                 >
                     <Image
                         style={[
                             s(this.props).image,
-                            { height: this.state.viewHeight },
+                            { height: this.state.viewHeight, width: this.state.viewWidth },
                         ]}
                         resizeMode="contain"
                         source={{ uri: this.state.image }}

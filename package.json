@@ -1,5 +1,5 @@
 {
-  "_from": "git+https://github.com/tomasvarga/react-native-document-scanner.git",
+  "_from": "git+https://github.com/rosenexpend/react-native-perspective-image-cropper.git",
   "_id": "react-native-perspective-image-cropper@0.5.0",
   "_inBundle": false,
   "_integrity": "",
@@ -7,21 +7,21 @@
   "_phantomChildren": {},
   "_requested": {
     "type": "git",
-    "raw": "https://github.com/tomasvarga/react-native-document-scanner.git",
-    "rawSpec": "https://github.com/tomasvarga/react-native-document-scanner.git",
-    "saveSpec": "git+https://github.com/tomasvarga/react-native-document-scanner.git",
-    "fetchSpec": "https://github.com/tomasvarga/react-native-document-scanner.git",
+    "raw": "https://github.com/rosenexpend/react-native-perspective-image-cropper.git",
+    "rawSpec": "https://github.com/rosenexpend/react-native-perspective-image-cropper.git",
+    "saveSpec": "git+https://github.com/rosenexpend/react-native-perspective-image-cropper.git",
+    "fetchSpec": "https://github.com/rosenexpend/react-native-perspective-image-cropper.git",
     "gitCommittish": null
   },
   "_requiredBy": [
     "#USER",
     "/"
   ],
-  "_resolved": "git+https://github.com/tomasvarga/react-native-document-scanner.git#6cd745de4df7cae5a3bdbeaa1e61d67efb136a4c",
-  "_spec": "https://github.com/tomasvarga/react-native-document-scanner.git",
+  "_resolved": "git+https://github.com/rosenexpend/react-native-perspective-image-cropper.git#6cd745de4df7cae5a3bdbeaa1e61d67efb136a4c",
+  "_spec": "https://github.com/rosenexpend/react-native-perspective-image-cropper.git",
   "_where": "/Users/rtoshev/expend-mobile-app",
   "author": {
-    "name": "Tomas Varga & Michaël Villeneuve"
+    "name": "Rosen Toshev & Tomas Varga & Michaël Villeneuve"
   },
   "bugs": {
     "url": "https://github.com/Michaelvilleneuve/react-native-perspective-image-cropper/issues"

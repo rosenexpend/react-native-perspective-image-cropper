@@ -6,7 +6,7 @@ Document in progress...
 
 ## Installation 🚀🚀
 
-`$ npm install https://github.com/tomasvarga/react-native-document-scanner.git --save`
+`$ npm install https://github.com/rosenexpend/react-native-perspective-image-cropper.git --save`
 
 `$ react-native link react-native-perspective-image-cropper`
 
