@@ -152,7 +152,7 @@ class CustomCrop extends Component {
         return {
             x:
                 (corner.x._value / Dimensions.get('window').width) *
-                this.state.width,
+                this.state.width + 50,
             y: (corner.y._value / this.state.viewHeight) * this.state.height,
         };
     }
