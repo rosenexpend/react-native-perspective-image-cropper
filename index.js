@@ -158,6 +158,7 @@ class CustomCrop extends Component {
     }
 
     render() {
+        const {height, width} = Dimensions.get('window');
         return (
             <View
                 style={{
@@ -170,20 +171,20 @@ class CustomCrop extends Component {
                 <View
                     style={[
                         s(this.props).cropContainer,
-                        { height: this.state.viewHeight, width: this.state.viewWidth },
+                        { height: this.state.viewHeight, width },
                     ]}
                 >
                     <Image
                         style={[
                             s(this.props).image,
-                            { height: this.state.viewHeight, width: this.state.viewWidth },
+                            { height: this.state.viewHeight, width },
                         ]}
                         resizeMode="contain"
                         source={{ uri: this.state.image }}
                     />
                     <Svg
                         height={this.state.viewHeight}
-                        width={Dimensions.get('window').width}
+                        width={width}
                         style={{ position: 'absolute', left: 0, top: 0 }}
                     >
                         <AnimatedPolygon
