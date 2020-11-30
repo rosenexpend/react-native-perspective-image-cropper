@@ -182,7 +182,7 @@ imageCoordinatesToViewCoordinates(corner) {
                 <View
                     style={[
                         s(this.props).cropContainer,
-                        { height: this.state.viewHeight},
+                        { height: this.state.viewHeight },
                     ]}
                 >
                     <Image
