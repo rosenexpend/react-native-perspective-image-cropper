@@ -30,7 +30,10 @@ class CustomCrop extends Component {
             topLeft: new Animated.ValueXY(
                 props.rectangleCoordinates
                     ? this.imageCoordinatesToViewCoordinates(
-                          props.rectangleCoordinates.topLeft,
+                        {
+                            x: props.rectangleCoordinates.topLeft.x,
+                            y: props.rectangleCoordinates.topLeft.y
+                        },
                           true,
                       )
                     : { x: 100, y: 100 },
@@ -38,7 +41,10 @@ class CustomCrop extends Component {
             topRight: new Animated.ValueXY(
                 props.rectangleCoordinates
                     ? this.imageCoordinatesToViewCoordinates(
-                          props.rectangleCoordinates.topRight,
+                          {
+                            x: props.rectangleCoordinates.topRight.x,
+                            y: props.rectangleCoordinates.topRight.y
+                          },
                           true,
                       )
                     : { x: this.state.viewWidth - 100, y: 100 },
@@ -46,7 +52,10 @@ class CustomCrop extends Component {
             bottomLeft: new Animated.ValueXY(
                 props.rectangleCoordinates
                     ? this.imageCoordinatesToViewCoordinates(
-                          props.rectangleCoordinates.bottomLeft,
+                          {
+                              x: props.rectangleCoordinates.bottomLeft.x,
+                              y: props.rectangleCoordinates.bottomLeft.y
+                          },
                           true,
                       )
                     : { x: 100, y: this.state.viewHeight - 100 },
@@ -54,7 +63,10 @@ class CustomCrop extends Component {
             bottomRight: new Animated.ValueXY(
                 props.rectangleCoordinates
                     ? this.imageCoordinatesToViewCoordinates(
-                          props.rectangleCoordinates.bottomRight,
+                          {
+                              x: props.rectangleCoordinates.bottomRight.x,
+                              y: props.rectangleCoordinates.bottomRight.y
+                          },
                           true,
                       )
                     : {
@@ -170,13 +182,13 @@ imageCoordinatesToViewCoordinates(corner) {
                 <View
                     style={[
                         s(this.props).cropContainer,
-                        { height: this.state.viewHeight, width: this.state.viewWidth },
+                        { height: this.state.viewHeight},
                     ]}
                 >
                     <Image
                         style={[
                             s(this.props).image,
-                            { height: this.state.viewHeight, width: this.state.viewWidth },
+                            { height: this.state.viewHeight },
                         ]}
                         resizeMode="contain"
                         source={{ uri: this.state.image }}
@@ -205,13 +217,13 @@ imageCoordinatesToViewCoordinates(corner) {
                         <View
                             style={[
                                 s(this.props).handlerI,
-                                { left: -10, top: -10 },
+                                { left: 0, top: 0 },
                             ]}
                         />
                         <View
                             style={[
                                 s(this.props).handlerRound,
-                                { left: 31, top: 31 },
+                                { left: 50, top: 50 },
                             ]}
                         />
                     </Animated.View>
@@ -225,13 +237,13 @@ imageCoordinatesToViewCoordinates(corner) {
                         <View
                             style={[
                                 s(this.props).handlerI,
-                                { left: 10, top: -10 },
+                                { left: 0, top: 0 },
                             ]}
                         />
                         <View
                             style={[
                                 s(this.props).handlerRound,
-                                { right: 31, top: 31 },
+                                { right: 47, top: 50 },
                             ]}
                         />
                     </Animated.View>
@@ -245,13 +257,13 @@ imageCoordinatesToViewCoordinates(corner) {
                         <View
                             style={[
                                 s(this.props).handlerI,
-                                { left: -10, top: 10 },
+                                { left: 0, top: 0 },
                             ]}
                         />
                         <View
                             style={[
                                 s(this.props).handlerRound,
-                                { left: 31, bottom: 31 },
+                                { left: 51, bottom: 51 },
                             ]}
                         />
                     </Animated.View>
@@ -265,13 +277,13 @@ imageCoordinatesToViewCoordinates(corner) {
                         <View
                             style={[
                                 s(this.props).handlerI,
-                                { left: 10, top: 10 },
+                                { left: 0, top: 0 },
                             ]}
                         />
                         <View
                             style={[
                                 s(this.props).handlerRound,
-                                { right: 31, bottom: 31 },
+                                { right: 47, bottom: 53 },
                             ]}
                         />
                     </Animated.View>
@@ -283,15 +295,15 @@ imageCoordinatesToViewCoordinates(corner) {
 
 const s = (props) => ({
     handlerI: {
-        borderRadius: 0,
-        height: 20,
-        width: 20,
+        borderRadius: 50,
+        height: 10,
+        width: 0,
         backgroundColor: props.handlerColor || 'blue',
     },
     handlerRound: {
         width: 39,
         position: 'absolute',
-        height: 39,
+        height: 37,
         borderRadius: 100,
         backgroundColor: props.handlerColor || 'blue',
     },
