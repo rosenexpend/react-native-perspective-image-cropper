@@ -7,6 +7,7 @@ import {
     Image,
     View,
     Animated,
+    Platform
 } from 'react-native';
 import Svg, { Polygon } from 'react-native-svg';
 
@@ -31,8 +32,10 @@ class CustomCrop extends Component {
                 props.rectangleCoordinates
                     ? this.imageCoordinatesToViewCoordinates(
                         {
-                            x: props.rectangleCoordinates.topLeft.x,
-                            y: props.rectangleCoordinates.topLeft.y
+                            x: Platform.OS === 'android' ? props.rectangleCoordinates.topLeft.x 
+                            : props.rectangleCoordinates.topLeft.x * 4,
+                            y: Platform.OS === 'android' ? props.rectangleCoordinates.topLeft.y 
+                            : props.rectangleCoordinates.topLeft.y * 4.01
                         },
                           true,
                       )
@@ -42,8 +45,11 @@ class CustomCrop extends Component {
                 props.rectangleCoordinates
                     ? this.imageCoordinatesToViewCoordinates(
                           {
-                            x: props.rectangleCoordinates.topRight.x,
-                            y: props.rectangleCoordinates.topRight.y
+                            x:  Platform.OS === 'android' ?  
+                            props.rectangleCoordinates.topRight.x :
+                            props.rectangleCoordinates.topRight.x * 4,
+                            y: Platform.OS === 'android' ? props.rectangleCoordinates.topRight.y 
+                            : props.rectangleCoordinates.topRight.y * 4.01
                           },
                           true,
                       )
@@ -53,8 +59,11 @@ class CustomCrop extends Component {
                 props.rectangleCoordinates
                     ? this.imageCoordinatesToViewCoordinates(
                           {
-                              x: props.rectangleCoordinates.bottomLeft.x,
-                              y: props.rectangleCoordinates.bottomLeft.y
+                              x: Platform.OS === 'android' ? 
+                              props.rectangleCoordinates.bottomLeft.x :
+                              props.rectangleCoordinates.bottomLeft.x * 4,
+                              y: Platform.OS === 'android' ? props.rectangleCoordinates.bottomLeft.y 
+                              : props.rectangleCoordinates.bottomLeft.y * 4.01
                           },
                           true,
                       )
@@ -64,8 +73,11 @@ class CustomCrop extends Component {
                 props.rectangleCoordinates
                     ? this.imageCoordinatesToViewCoordinates(
                           {
-                              x: props.rectangleCoordinates.bottomRight.x,
-                              y: props.rectangleCoordinates.bottomRight.y
+                              x: Platform.OS === 'android' ? 
+                              props.rectangleCoordinates.bottomRight.x :
+                              props.rectangleCoordinates.bottomRight.x * 4,
+                              y: Platform.OS === 'android' ? props.rectangleCoordinates.bottomRight.y 
+                              : props.rectangleCoordinates.bottomRight.y * 4.01
                           },
                           true,
                       )
@@ -195,7 +207,7 @@ imageCoordinatesToViewCoordinates(corner) {
                     />
                     <Svg
                         height={this.state.viewHeight}
-                        width={this.state.viewWidth}
+                        width={this.state.viewWidth }
                         style={{ position: 'absolute', left: 0, top: 0 }}
                     >
                         <AnimatedPolygon
