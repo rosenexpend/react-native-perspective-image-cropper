@@ -24,6 +24,7 @@ class CustomCrop extends Component {
             width: props.width,
             image: props.initialImage,
             moving: false,
+            screenRatio: Dimensions.get('screen').height / Dimensions.get('screen').width
         };
 
         this.state = {
@@ -33,9 +34,9 @@ class CustomCrop extends Component {
                     ? this.imageCoordinatesToViewCoordinates(
                         {
                             x: Platform.OS === 'android' ? props.rectangleCoordinates.topLeft.x 
-                            : props.rectangleCoordinates.topLeft.x * 4,
+                            : props.rectangleCoordinates.topLeft.x * this.getCoordinateScaling(),
                             y: Platform.OS === 'android' ? props.rectangleCoordinates.topLeft.y 
-                            : props.rectangleCoordinates.topLeft.y * 4.01
+                            : props.rectangleCoordinates.topLeft.y * this.getCoordinateScaling()
                         },
                           true,
                       )
@@ -47,9 +48,9 @@ class CustomCrop extends Component {
                           {
                             x:  Platform.OS === 'android' ?  
                             props.rectangleCoordinates.topRight.x :
-                            props.rectangleCoordinates.topRight.x * 4,
+                            props.rectangleCoordinates.topRight.x * this.getCoordinateScaling(),
                             y: Platform.OS === 'android' ? props.rectangleCoordinates.topRight.y 
-                            : props.rectangleCoordinates.topRight.y * 4.01
+                            : props.rectangleCoordinates.topRight.y * this.getCoordinateScaling()
                           },
                           true,
                       )
@@ -61,9 +62,9 @@ class CustomCrop extends Component {
                           {
                               x: Platform.OS === 'android' ? 
                               props.rectangleCoordinates.bottomLeft.x :
-                              props.rectangleCoordinates.bottomLeft.x * 4,
+                              props.rectangleCoordinates.bottomLeft.x * this.getCoordinateScaling(),
                               y: Platform.OS === 'android' ? props.rectangleCoordinates.bottomLeft.y 
-                              : props.rectangleCoordinates.bottomLeft.y * 4.01
+                              : props.rectangleCoordinates.bottomLeft.y * this.getCoordinateScaling()
                           },
                           true,
                       )
@@ -75,9 +76,9 @@ class CustomCrop extends Component {
                           {
                               x: Platform.OS === 'android' ? 
                               props.rectangleCoordinates.bottomRight.x :
-                              props.rectangleCoordinates.bottomRight.x * 4,
+                              props.rectangleCoordinates.bottomRight.x * this.getCoordinateScaling(),
                               y: Platform.OS === 'android' ? props.rectangleCoordinates.bottomRight.y 
-                              : props.rectangleCoordinates.bottomRight.y * 4.01
+                              : props.rectangleCoordinates.bottomRight.y * this.getCoordinateScaling()
                           },
                           true,
                       )
@@ -179,6 +180,10 @@ imageCoordinatesToViewCoordinates(corner) {
             y: (corner.y._value / this.state.viewHeight) * this.state.height
         };	  
     };
+
+    getCoordinateScaling() {
+        return this.state.screenRatio * 2.25
+    }
 
     render() {
 
