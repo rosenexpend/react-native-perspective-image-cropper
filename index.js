@@ -182,7 +182,7 @@ imageCoordinatesToViewCoordinates(corner) {
     };
 
     getCoordinateScaling() {
-        return this.state.screenRatio * 2.25
+        return (this.props.width / this.state.viewHeight) * 1.20
     }
 
     render() {
@@ -199,13 +199,13 @@ imageCoordinatesToViewCoordinates(corner) {
                 <View
                     style={[
                         s(this.props).cropContainer,
-                        { height: this.state.viewHeight },
+                        { height: this.state.viewHeight},
                     ]}
                 >
                     <Image
                         style={[
                             s(this.props).image,
-                            { height: this.state.viewHeight },
+                            { height: this.state.viewHeight},
                         ]}
                         resizeMode="contain"
                         source={{ uri: this.state.image }}
