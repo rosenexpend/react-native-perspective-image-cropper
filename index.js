@@ -330,14 +330,6 @@ const s = (props) => ({
         width: Dimensions.get('window').width,
         position: 'absolute',
     },
-    bottomButton: {
-        alignItems: 'center',
-        justifyContent: 'center',
-        backgroundColor: 'blue',
-        width: 70,
-        height: 70,
-        borderRadius: 100,
-    },
     handler: {
         height: 140,
         width: 140,
