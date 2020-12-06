@@ -316,6 +316,7 @@ const s = (props) => ({
         height: 10,
         width: 0,
         backgroundColor: props.handlerColor || 'blue',
+        zIndex: 9999
     },
     handlerRound: {
         width: 39,
@@ -323,6 +324,7 @@ const s = (props) => ({
         height: 37,
         borderRadius: 100,
         backgroundColor: props.handlerColor || 'blue',
+        zIndex: 9999
     },
     image: {
         width: Dimensions.get('window').width,
