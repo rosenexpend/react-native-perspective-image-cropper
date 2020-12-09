@@ -243,6 +243,12 @@ imageCoordinatesToViewCoordinates(corner) {
                                 { left: 50, top: 50 },
                             ]}
                         />
+                           <View
+                            style={[
+                                s(this.props).handlerRoundOuter,
+                                { left: 30, top: 30 },
+                            ]}
+                        />
                     </Animated.View>
                     <Animated.View
                         {...this.panResponderTopRight.panHandlers}
@@ -261,6 +267,12 @@ imageCoordinatesToViewCoordinates(corner) {
                             style={[
                                 s(this.props).handlerRound,
                                 { right: 47, top: 50 },
+                            ]}
+                        />
+                        <View
+                            style={[
+                                s(this.props).handlerRoundOuter,
+                                { right: 30, top: 30 },
                             ]}
                         />
                     </Animated.View>
@@ -283,6 +295,12 @@ imageCoordinatesToViewCoordinates(corner) {
                                 { left: 51, bottom: 51 },
                             ]}
                         />
+                        <View
+                            style={[
+                                s(this.props).handlerRoundOuter,
+                                { left: 30, bottom: 30 },
+                            ]}
+                        />
                     </Animated.View>
                     <Animated.View
                         {...this.panResponderBottomRight.panHandlers}
@@ -303,6 +321,12 @@ imageCoordinatesToViewCoordinates(corner) {
                                 { right: 47, bottom: 53 },
                             ]}
                         />
+                        <View
+                            style={[
+                                s(this.props).handlerRoundOuter,
+                                { right: 27, bottom: 33 },
+                            ]}
+                        />
                     </Animated.View>
                 </View>
             </View>
@@ -319,12 +343,22 @@ const s = (props) => ({
         zIndex: 9999
     },
     handlerRound: {
-        width: 39,
+        width: 31.2,
         position: 'absolute',
-        height: 37,
+        height: 29.6,
         borderRadius: 100,
         backgroundColor: props.handlerColor || 'blue',
-        zIndex: 9999
+        zIndex: 9999,
+        borderWidth: 2,
+        borderColor: props.borderColor || 'blue'
+    },
+    handlerRoundOuter: {
+        width: 70.2,
+        position: 'absolute',
+        height: 70.2,
+        borderRadius: 150,
+        backgroundColor: props.handlerOuterColor || 'blue',
+        zIndex: 1
     },
     image: {
         width: Dimensions.get('window').width,
