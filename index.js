@@ -358,7 +358,7 @@ const s = (props) => ({
         height: 70.2,
         borderRadius: 150,
         backgroundColor: props.handlerOuterColor || 'blue',
-        zIndex: 1
+        zIndex: 9998
     },
     image: {
         width: Dimensions.get('window').width,
