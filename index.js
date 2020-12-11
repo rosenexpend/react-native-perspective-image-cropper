@@ -48,9 +48,9 @@ class CustomCrop extends Component {
                           {
                             x:  Platform.OS === 'android' ?  
                             props.rectangleCoordinates.topRight.x :
-                            props.rectangleCoordinates.topRight.x * this.getCoordinateScaling(),
+                            props.rectangleCoordinates.bottomLeft.x * this.getCoordinateScaling(),
                             y: Platform.OS === 'android' ? props.rectangleCoordinates.topRight.y 
-                            : props.rectangleCoordinates.topRight.y * this.getCoordinateScaling()
+                            : props.rectangleCoordinates.bottomLeft.y * this.getCoordinateScaling()
                           },
                           true,
                       )
@@ -62,9 +62,9 @@ class CustomCrop extends Component {
                           {
                               x: Platform.OS === 'android' ? 
                               props.rectangleCoordinates.bottomLeft.x :
-                              props.rectangleCoordinates.bottomLeft.x * this.getCoordinateScaling(),
+                              props.rectangleCoordinates.topRight.x * this.getCoordinateScaling(),
                               y: Platform.OS === 'android' ? props.rectangleCoordinates.bottomLeft.y 
-                              : props.rectangleCoordinates.bottomLeft.y * this.getCoordinateScaling()
+                              : props.rectangleCoordinates.topRight.y * this.getCoordinateScaling()
                           },
                           true,
                       )
