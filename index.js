@@ -33,70 +33,67 @@ class CustomCrop extends Component {
                 props.rectangleCoordinates
                     ? this.imageCoordinatesToViewCoordinates(
                         {
-                            x: Platform.OS === 'android' ? props.rectangleCoordinates.topLeft.x 
-                            : props.rectangleCoordinates.topLeft.x * this.getCoordinateScaling(),
-                            y: Platform.OS === 'android' ? props.rectangleCoordinates.topLeft.y 
-                            : props.rectangleCoordinates.topLeft.y * this.getCoordinateScaling()
+                            x: Platform.OS === 'android' ? props.rectangleCoordinates.topLeft.x
+                                : props.rectangleCoordinates.topLeft.x * this.getCoordinateScaling(),
+                            y: Platform.OS === 'android' ? props.rectangleCoordinates.topLeft.y
+                                : props.rectangleCoordinates.topLeft.y * this.getCoordinateScaling()
                         },
-                          true,
-                      )
+                        true,
+                    )
                     : { x: 100, y: 100 },
             ),
             topRight: new Animated.ValueXY(
                 props.rectangleCoordinates
                     ? this.imageCoordinatesToViewCoordinates(
-                          {
-                            x:  Platform.OS === 'android' ?  
-                            props.rectangleCoordinates.topRight.x :
-                            props.rectangleCoordinates.bottomLeft.x * this.getCoordinateScaling(),
-                            y: Platform.OS === 'android' ? props.rectangleCoordinates.topRight.y 
-                            : props.rectangleCoordinates.bottomLeft.y * this.getCoordinateScaling()
-                          },
-                          true,
-                      )
+                        {
+                            x: Platform.OS === 'android' ?
+                                props.rectangleCoordinates.topRight.x :
+                                props.rectangleCoordinates.bottomLeft.x * this.getCoordinateScaling(),
+                            y: Platform.OS === 'android' ? props.rectangleCoordinates.topRight.y
+                                : props.rectangleCoordinates.bottomLeft.y * this.getCoordinateScaling()
+                        },
+                        true,
+                    )
                     : { x: this.state.viewWidth - 100, y: 100 },
             ),
             bottomLeft: new Animated.ValueXY(
                 props.rectangleCoordinates
                     ? this.imageCoordinatesToViewCoordinates(
-                          {
-                              x: Platform.OS === 'android' ? 
-                              props.rectangleCoordinates.bottomLeft.x :
-                              props.rectangleCoordinates.topRight.x * this.getCoordinateScaling(),
-                              y: Platform.OS === 'android' ? props.rectangleCoordinates.bottomLeft.y 
-                              : props.rectangleCoordinates.topRight.y * this.getCoordinateScaling()
-                          },
-                          true,
-                      )
+                        {
+                            x: Platform.OS === 'android' ?
+                                props.rectangleCoordinates.bottomLeft.x :
+                                props.rectangleCoordinates.topRight.x * this.getCoordinateScaling(),
+                            y: Platform.OS === 'android' ? props.rectangleCoordinates.bottomLeft.y
+                                : props.rectangleCoordinates.topRight.y * this.getCoordinateScaling()
+                        },
+                        true,
+                    )
                     : { x: 100, y: this.state.viewHeight - 100 },
             ),
             bottomRight: new Animated.ValueXY(
                 props.rectangleCoordinates
                     ? this.imageCoordinatesToViewCoordinates(
-                          {
-                              x: Platform.OS === 'android' ? 
-                              props.rectangleCoordinates.bottomRight.x :
-                              props.rectangleCoordinates.bottomRight.x * this.getCoordinateScaling(),
-                              y: Platform.OS === 'android' ? props.rectangleCoordinates.bottomRight.y 
-                              : props.rectangleCoordinates.bottomRight.y * this.getCoordinateScaling()
-                          },
-                          true,
-                      )
+                        {
+                            x: Platform.OS === 'android' ?
+                                props.rectangleCoordinates.bottomRight.x :
+                                props.rectangleCoordinates.bottomRight.x * this.getCoordinateScaling(),
+                            y: Platform.OS === 'android' ? props.rectangleCoordinates.bottomRight.y
+                                : props.rectangleCoordinates.bottomRight.y * this.getCoordinateScaling()
+                        },
+                        true,
+                    )
                     : {
-                          x: this.state.viewWidth - 100,
-                          y: this.state.viewHeight - 100,
-                      },
+                        x: this.state.viewWidth - 100,
+                        y: this.state.viewHeight - 100,
+                    },
             ),
         };
         this.state = {
             ...this.state,
-            overlayPositions: `${this.state.topLeft.x._value},${
-                this.state.topLeft.y._value
-            } ${this.state.topRight.x._value},${this.state.topRight.y._value} ${
-                this.state.bottomRight.x._value
-            },${this.state.bottomRight.y._value} ${
-                this.state.bottomLeft.x._value
-            },${this.state.bottomLeft.y._value}`,
+            overlayPositions: `${this.state.topLeft.x._value},${this.state.topLeft.y._value
+                } ${this.state.topRight.x._value},${this.state.topRight.y._value} ${this.state.bottomRight.x._value
+                },${this.state.bottomRight.y._value} ${this.state.bottomLeft.x._value
+                },${this.state.bottomLeft.y._value}`,
         };
 
         this.panResponderTopLeft = this.createPanResponser(this.state.topLeft);
@@ -156,29 +153,26 @@ class CustomCrop extends Component {
 
     updateOverlayString() {
         this.setState({
-            overlayPositions: `${this.state.topLeft.x._value},${
-                this.state.topLeft.y._value
-            } ${this.state.topRight.x._value},${this.state.topRight.y._value} ${
-                this.state.bottomRight.x._value
-            },${this.state.bottomRight.y._value} ${
-                this.state.bottomLeft.x._value
-            },${this.state.bottomLeft.y._value}`,
+            overlayPositions: `${this.state.topLeft.x._value},${this.state.topLeft.y._value
+                } ${this.state.topRight.x._value},${this.state.topRight.y._value} ${this.state.bottomRight.x._value
+                },${this.state.bottomRight.y._value} ${this.state.bottomLeft.x._value
+                },${this.state.bottomLeft.y._value}`,
         });
     }
 
-imageCoordinatesToViewCoordinates(corner) {
-        return {	    
-                x: (corner.x * this.state.viewWidth) / this.state.width,
-                y: (corner.y * this.state.viewHeight) / this.state.height,
-            };
+    imageCoordinatesToViewCoordinates(corner) {
+        return {
+            x: (corner.x * this.state.viewWidth) / this.state.width,
+            y: (corner.y * this.state.viewHeight) / this.state.height,
+        };
     }
-    
-    viewCoordinatesToImageCoordinates(corner) {	
-        return {	
-            x: (corner.x._value / this.state.viewWidth) *	         
+
+    viewCoordinatesToImageCoordinates(corner) {
+        return {
+            x: (corner.x._value / this.state.viewWidth) *
                 this.state.width,
             y: (corner.y._value / this.state.viewHeight) * this.state.height
-        };	  
+        };
     };
 
     getCoordinateScaling() {
@@ -199,20 +193,20 @@ imageCoordinatesToViewCoordinates(corner) {
                 <View
                     style={[
                         s(this.props).cropContainer,
-                        { height: this.state.viewHeight},
+                        { height: this.state.viewHeight },
                     ]}
                 >
                     <Image
                         style={[
                             s(this.props).image,
-                            { height: this.state.viewHeight},
+                            { height: this.state.viewHeight },
                         ]}
                         resizeMode="contain"
                         source={{ uri: this.state.image }}
                     />
                     <Svg
                         height={this.state.viewHeight}
-                        width={this.state.viewWidth }
+                        width={this.state.viewWidth}
                         style={{ position: 'absolute', left: 0, top: 0 }}
                     >
                         <AnimatedPolygon
@@ -243,65 +237,67 @@ imageCoordinatesToViewCoordinates(corner) {
                                 { left: 50, top: 50 },
                             ]}
                         />
-                           <View
+                        <View
                             style={[
                                 s(this.props).handlerRoundOuter,
                                 { left: 30, top: 30 },
                             ]}
                         />
                     </Animated.View>
-                    <Animated.View
-                        {...this.panResponderTopRight.panHandlers}
-                        style={[
-                            this.state.topRight.getLayout(),
-                            s(this.props).handler,
-                        ]}
-                    >
-                        <View
+                    <>
+                        <Animated.View
+                            {...this.panResponderTopRight.panHandlers}
                             style={[
-                                s(this.props).handlerI,
-                                { left: 0, top: 0 },
+                                this.state.topRight.getLayout(),
+                                s(this.props).handler,
                             ]}
-                        />
-                        <View
+                        >
+                            <View
+                                style={[
+                                    s(this.props).handlerI,
+                                    { left: 0, top: 0 },
+                                ]}
+                            />
+                            <View
+                                style={[
+                                    s(this.props).handlerRound,
+                                    { left: 51, bottom: 51 },
+                                ]}
+                            />
+                            <View
+                                style={[
+                                    s(this.props).handlerRoundOuter,
+                                    { left: 30, bottom: 30 },
+                                ]}
+                            />
+                        </Animated.View>
+                        <Animated.View
+                            {...this.panResponderBottomLeft.panHandlers}
                             style={[
-                                s(this.props).handlerRound,
-                                { right: 47, top: 50 },
+                                this.state.bottomLeft.getLayout(),
+                                s(this.props).handler,
                             ]}
-                        />
-                        <View
-                            style={[
-                                s(this.props).handlerRoundOuter,
-                                { right: 30, top: 30 },
-                            ]}
-                        />
-                    </Animated.View>
-                    <Animated.View
-                        {...this.panResponderBottomLeft.panHandlers}
-                        style={[
-                            this.state.bottomLeft.getLayout(),
-                            s(this.props).handler,
-                        ]}
-                    >
-                        <View
-                            style={[
-                                s(this.props).handlerI,
-                                { left: 0, top: 0 },
-                            ]}
-                        />
-                        <View
-                            style={[
-                                s(this.props).handlerRound,
-                                { left: 51, bottom: 51 },
-                            ]}
-                        />
-                        <View
-                            style={[
-                                s(this.props).handlerRoundOuter,
-                                { left: 30, bottom: 30 },
-                            ]}
-                        />
-                    </Animated.View>
+                        >
+                            <View
+                                style={[
+                                    s(this.props).handlerI,
+                                    { left: 0, top: 0 },
+                                ]}
+                            />
+                            <View
+                                style={[
+                                    s(this.props).handlerRound,
+                                    { right: 47, top: 50 },
+                                ]}
+                            />
+                            <View
+                                style={[
+                                    s(this.props).handlerRoundOuter,
+                                    { right: 30, top: 30 },
+                                ]}
+                            />
+                        </Animated.View>
+                    </>
                     <Animated.View
                         {...this.panResponderBottomRight.panHandlers}
                         style={[
